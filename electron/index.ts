@@ -1,3 +1,10 @@
+/*
+ * @Author: kuanggf
+ * @Date: 2022-03-12 18:28:32
+ * @LastEditors: kuanggf
+ * @LastEditTime: 2022-03-14 16:45:54
+ * @Description: file content
+ */
 // Native
 import { join } from 'path'
 
@@ -18,6 +25,7 @@ function createWindow() {
     // show: true,
     // resizable: true,
     // fullscreenable: true,
+    titleBarStyle: 'hiddenInset',
     webPreferences: {
       preload: join(__dirname, 'preload.js')
     }
