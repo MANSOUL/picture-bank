@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-14 16:45:54
+ * @LastEditTime: 2022-03-15 15:26:10
  * @Description: file content
  */
 // Native
@@ -23,8 +23,8 @@ function createWindow() {
     //  change to false to use AppBar
     // frame: false,
     // show: true,
-    // resizable: true,
-    // fullscreenable: true,
+    resizable: false,
+    fullscreenable: false,
     titleBarStyle: 'hiddenInset',
     webPreferences: {
       preload: join(__dirname, 'preload.js')

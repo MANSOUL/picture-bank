@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-14 17:28:46
+ * @LastEditTime: 2022-03-17 20:22:22
  * @Description: file content
  */
 import React, { useState } from 'react'
@@ -25,7 +25,7 @@ export default function Layout() {
   return (
     <div className="w-full h-full flex flex-col bg-gray-100">
       <div className="h-9 shrink-0 bg-slate-200" id="title-bar" />
-      <div className="flex overflow-hidden">
+      <div className="flex grow overflow-hidden">
         <div className="w-56 p-5 pr-0 shrink-0">
           <ul>
             <li className="mb-2">
