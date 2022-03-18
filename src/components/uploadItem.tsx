@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-14 12:02:44
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-18 11:25:40
+ * @LastEditTime: 2022-03-18 18:59:43
  * @Description: file content
  */
 import React from 'react'
@@ -15,6 +15,12 @@ interface UploadItemProps {
 }
 
 export default function UploadItem({ data }: UploadItemProps) {
+  const handleCopyLink = () => {
+    if (data.done && !data.fail) {
+      window.bank.writeTextToClipboard(data.link)
+    }
+  }
+
   const progress = data.loaded / data.total
   const progressText = `${(progress * 100).toFixed(1)}%`
   return (
@@ -24,7 +30,9 @@ export default function UploadItem({ data }: UploadItemProps) {
       </div>
       <div className="grow mx-4">
         <div className="flex justify-between">
-          <span className="text-sm text-black/70">{data.name}</span>
+          <button onClick={handleCopyLink} className="text-sm text-black/70 cursor-pointer" title="click to copy link">
+            {data.name}
+          </button>
           <span className="text-sm text-slate-400">{progressText}</span>
         </div>
         <div className="h-1 mt-2 rounded bg-slate-300">

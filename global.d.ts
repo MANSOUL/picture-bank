@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-15 16:31:36
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-18 11:27:42
+ * @LastEditTime: 2022-03-18 18:45:34
  * @Description: file content
  */
 interface FileLike {
@@ -17,6 +17,10 @@ interface FileLike {
 interface FileLikeUpload extends FileLike {
   total: number
   loaded: number
+  percent: number
+  done: boolean
+  fail: boolean
+  link: string
 }
 
 interface ProgressEventListener {

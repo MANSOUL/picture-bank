@@ -2,10 +2,10 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-18 11:19:29
+ * @LastEditTime: 2022-03-18 18:51:28
  * @Description: file content
  */
-import { ipcRenderer, contextBridge } from 'electron'
+import { ipcRenderer, contextBridge, clipboard } from 'electron'
 import createExtensionHost from './extension'
 
 const extensionHost = createExtensionHost()
@@ -19,6 +19,9 @@ declare global {
 }
 
 const api = {
+  writeTextToClipboard(text: string) {
+    clipboard.writeText(text)
+  },
   upload(files: FileLike[]) {
     extensionHost.send({
       type: 'upload',

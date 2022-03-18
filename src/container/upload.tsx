@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-17 20:24:27
+ * @LastEditTime: 2022-03-18 18:34:56
  * @Description: file content
  */
 import React, { useEffect, useState } from 'react'
@@ -10,7 +10,7 @@ import FileChoice from '../components/fileChoice'
 import UploadItem from '../components/uploadItem'
 
 export default function Upload() {
-  const [uploadList, setUploadList] = useState<any[]>([])
+  const [uploadList, setUploadList] = useState<FileLikeUpload[]>([])
 
   useEffect(() => {
     const removeListener = window.bank.onProgress((e) => {
@@ -32,7 +32,7 @@ export default function Upload() {
           <div className="pb-9 px-4 overflow-scroll">
             <ul>
               {uploadList.map((item) => (
-                <li className="mt-2">
+                <li key={item.path} className="mt-2">
                   <UploadItem data={item} />
                 </li>
               ))}

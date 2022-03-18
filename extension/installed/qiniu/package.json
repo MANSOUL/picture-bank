@@ -3,5 +3,5 @@
   "displayName": "七牛云",
   "description": "上传文件到七牛云",
   "version": "0.0.1",
-  "main": "./main.js"
+  "main": "./bundle.js"
 }
