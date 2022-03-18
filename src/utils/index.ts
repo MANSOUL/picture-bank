@@ -2,18 +2,9 @@
  * @Author: kuanggf
  * @Date: 2022-03-15 16:21:57
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-17 20:31:37
+ * @LastEditTime: 2022-03-18 10:19:41
  * @Description: file content
  */
-
-interface FileLike {
-  name: string
-  path: string
-  size: number
-  lastModified: number
-  webkitRelativePath: string
-  type: string
-}
 
 export function cloneFiles(files: FileList): FileLike[] {
   return [...files].map((item: File) => ({

@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-17 20:06:16
+ * @LastEditTime: 2022-03-18 11:19:29
  * @Description: file content
  */
 import { ipcRenderer, contextBridge } from 'electron'
@@ -16,23 +16,6 @@ declare global {
     bank: typeof api
     ipcRenderer: typeof ipcRenderer
   }
-}
-interface FileLike {
-  name: string
-  path: string
-  size: number
-  lastModified: number
-  webkitRelativePath: string
-  type: string
-}
-
-interface ProgressEventListener {
-  (data: Array<any>[]): void
-}
-
-interface ExtensionHostMessage {
-  type: 'progress'
-  data: any
 }
 
 const api = {
