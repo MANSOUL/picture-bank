@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-14 12:02:44
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-17 20:30:51
+ * @LastEditTime: 2022-03-18 11:25:40
  * @Description: file content
  */
 import React from 'react'
@@ -11,7 +11,7 @@ import CloseIcon from './closeIcon'
 import { getExtension } from '../utils'
 
 interface UploadItemProps {
-  data: any
+  data: FileLikeUpload
 }
 
 export default function UploadItem({ data }: UploadItemProps) {
