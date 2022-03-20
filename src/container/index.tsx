@@ -2,13 +2,14 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-17 20:22:22
+ * @LastEditTime: 2022-03-20 16:54:31
  * @Description: file content
  */
 import React, { useState } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import LibarayIcon from '../components/libarayIcon'
 import MenuItem from '../components/menuItem'
+import Message from '../components/message'
 import UploadIcon from '../components/uploadIcon'
 import Album from './album'
 import Upload from './upload'
@@ -61,6 +62,7 @@ export default function Layout() {
           </Routes>
         </div>
       </div>
+      <Message />
     </div>
   )
 }

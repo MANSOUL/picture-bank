@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-15 16:31:36
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-18 18:45:34
+ * @LastEditTime: 2022-03-20 17:57:54
  * @Description: file content
  */
 interface FileLike {
@@ -30,4 +30,15 @@ interface ProgressEventListener {
 interface ExtensionHostMessage {
   type: 'progress'
   data: Array<FileLikeUpload>
+}
+
+interface MessageInfo {
+  visible: boolean
+  type?: 'success' | 'error' | 'info'
+  message: string
+  duration?: number
+}
+
+interface Window {
+  showMessage(info: MessageInfo): void
 }
