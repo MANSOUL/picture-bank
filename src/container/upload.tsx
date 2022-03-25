@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 13:48:32
+ * @LastEditTime: 2022-03-25 13:58:51
  * @Description: file content
  */
 import React, { useEffect, useState } from 'react'
@@ -29,7 +29,8 @@ export default function Upload() {
             width: file.w,
             height: file.h,
             uploading: 0,
-            uploaded: 1
+            uploaded: 1,
+            createdTime: Date.now()
           })
       })
     })
@@ -69,6 +70,7 @@ export default function Upload() {
             height: 0,
             uploading: 1,
             uploaded: 0,
+            createdTime: Date.now(),
             remoteSource: 'qiniu',
             removeSourceName: '七牛云'
           })

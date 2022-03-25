@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-15 16:21:57
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 10:02:36
+ * @LastEditTime: 2022-03-25 14:13:53
  * @Description: file content
  */
 
@@ -24,6 +24,16 @@ export function createFileLikeByPath(path: string): FileLike {
     name,
     path
   }
+}
+
+const fixedZero = (n: number): string => {
+  if (n > 9) return `${n}`
+  return `0${n}`
+}
+
+export function formatTime(timestamp = Date.now()) {
+  const date = new Date(timestamp)
+  return `${date.getFullYear()}.${fixedZero(date.getMonth() + 1)}.${fixedZero(date.getDay())}`
 }
 
 export default function none() {
