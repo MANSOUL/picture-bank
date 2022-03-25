@@ -2,10 +2,11 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 11:32:42
+ * @LastEditTime: 2022-03-25 13:48:32
  * @Description: file content
  */
 import React, { useEffect, useState } from 'react'
+import Empty from '../components/empty'
 import FileChoice from '../components/fileChoice'
 import UploadItem from '../components/uploadItem'
 import { db } from '../db'
@@ -89,15 +90,18 @@ export default function Upload() {
         </div>
         <div className="text-slate-400 mt-7 grow flex flex-col overflow-scroll">
           <p className="text-sm px-4 text-slate-400">Uploaded Files</p>
-          <div className="pb-9 px-4 overflow-scroll">
-            <ul>
-              {uploadList.map((item) => (
-                <li key={item.path} className="mt-2">
-                  <UploadItem data={item} />
-                </li>
-              ))}
-            </ul>
-          </div>
+          {uploadList.length > 0 ? (
+            <div className="pb-9 px-4 overflow-scroll">
+              <ul>
+                {uploadList.map((item) => (
+                  <li key={item.path} className="mt-2">
+                    <UploadItem data={item} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+          {uploadList.length === 0 ? <Empty /> : null}
         </div>
       </div>
     </div>
