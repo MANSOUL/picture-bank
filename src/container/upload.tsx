@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 13:58:51
+ * @LastEditTime: 2022-03-25 15:24:45
  * @Description: file content
  */
 import React, { useEffect, useState } from 'react'
@@ -103,7 +103,7 @@ export default function Upload() {
               </ul>
             </div>
           ) : null}
-          {uploadList.length === 0 ? <Empty /> : null}
+          {uploadList.length === 0 ? <Empty size="small" /> : null}
         </div>
       </div>
     </div>

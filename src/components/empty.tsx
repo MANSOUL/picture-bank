@@ -2,19 +2,39 @@
  * @Author: kuanggf
  * @Date: 2022-03-25 13:46:09
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 13:54:52
+ * @LastEditTime: 2022-03-25 15:28:09
  * @Description: file content
  */
 import React from 'react'
 import EmptyIcon from './emptyIcon'
 
-export default function Empty() {
+interface EmptyProps {
+  size?: 'small' | 'medium'
+}
+
+export default function Empty({ size = 'medium' }: EmptyProps) {
+  let wrapperClassName = 'mx-auto mt-10'
+  let className = ''
+  let textClassName = 'text-center'
+
+  if (size === 'small') {
+    wrapperClassName += ' w-14'
+    className = 'w-14 h-14'
+    textClassName += ' text-xs'
+  }
+
+  if (size === 'medium') {
+    wrapperClassName += ' w-16'
+    className = 'w-16 h-16'
+    textClassName += 'text-sm'
+  }
+
   return (
-    <div className="w-16 mx-auto mt-10">
-      <div className="w-16 h-16">
+    <div className={wrapperClassName}>
+      <div className={className}>
         <EmptyIcon color="rgba(148, 163, 184)" />
       </div>
-      <div className="text-sm text-center" style={{ color: 'rgb(148, 163, 184)' }}>
+      <div className={textClassName} style={{ color: 'rgb(148, 163, 184)' }}>
         Empty
       </div>
     </div>
