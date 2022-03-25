@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 17:42:45
+ * @LastEditTime: 2022-03-25 17:50:24
  * @Description: file content
  */
 // Native
@@ -14,7 +14,7 @@ import { BrowserWindow, app, ipcMain, IpcMainEvent, dialog } from 'electron'
 import isDev from 'electron-is-dev'
 
 const height = 600
-const width = 800
+const width = 850
 
 function createWindow() {
   // Create the browser window.
