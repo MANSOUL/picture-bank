@@ -2,11 +2,12 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 13:43:11
+ * @LastEditTime: 2022-03-25 17:42:45
  * @Description: file content
  */
 // Native
 import { join } from 'path'
+// import { existsSync, mkdirSync } from 'fs'
 
 // Packages
 import { BrowserWindow, app, ipcMain, IpcMainEvent, dialog } from 'electron'
@@ -58,6 +59,11 @@ function createWindow() {
     window.close()
   })
 }
+
+// const appDataPath = app.getPath('appData')
+// const userDataPath = resolve(appDataPath, 'picture_bank')
+// if (!existsSync(userDataPath)) mkdirSync(userDataPath)
+// app.setPath('userData', userDataPath)
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

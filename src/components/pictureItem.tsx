@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-25 14:39:04
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 14:58:18
+ * @LastEditTime: 2022-03-25 17:41:43
  * @Description: file content
  */
 import React from 'react'
@@ -24,7 +24,7 @@ export default function PictureItem({ data }: PictureItemProps) {
   }
 
   return (
-    <div className="group relative rounded-lg overflow-hidden shadow-lg shadow-slate-300/50" key={data.id}>
+    <div className="group relative rounded-lg overflow-hidden shadow-lg shadow-slate-300/50">
       <div className="w-44 h-44">
         <img className="w-full h-full object-cover" src={data.remotePath} alt={data.fileName} />
       </div>
