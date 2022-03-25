@@ -2,12 +2,13 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-18 18:34:56
+ * @LastEditTime: 2022-03-25 11:32:42
  * @Description: file content
  */
 import React, { useEffect, useState } from 'react'
 import FileChoice from '../components/fileChoice'
 import UploadItem from '../components/uploadItem'
+import { db } from '../db'
 
 export default function Upload() {
   const [uploadList, setUploadList] = useState<FileLikeUpload[]>([])
@@ -15,9 +16,68 @@ export default function Upload() {
   useEffect(() => {
     const removeListener = window.bank.onProgress((e) => {
       setUploadList(e)
+      e.forEach((file) => {
+        if (!file.done) return
+        db.pictures
+          .where({
+            localAbsolutePath: file.path
+          })
+          .modify({
+            remotePath: file.link,
+            size: file.total,
+            width: file.w,
+            height: file.h,
+            uploading: 0,
+            uploaded: 1
+          })
+      })
     })
     return () => removeListener()
   }, [])
+
+  const handleUpload = async (files: FileLike[]) => {
+    const selects = files.map((item) => {
+      return db.pictures
+        .where({
+          localAbsolutePath: item.path
+        })
+        .first()
+    })
+    try {
+      const result = await Promise.allSettled(selects)
+      const exists = result.filter((item) => item.status === 'fulfilled' && item.value)
+      const waitToUploadFiles = files.filter((file) => {
+        if (exists.some((item) => item.status === 'fulfilled' && item.value?.localAbsolutePath === file.path)) {
+          window.showMessage({
+            message: `${file.name}已上传或正在上传中`,
+            visible: true
+          })
+          return false
+        }
+        return true
+      })
+      console.log('等待上传的文件:', waitToUploadFiles)
+      await Promise.all(
+        waitToUploadFiles.map((file) => {
+          return db.pictures.add({
+            localAbsolutePath: file.path,
+            remotePath: '',
+            fileName: file.name,
+            size: 0,
+            width: 0,
+            height: 0,
+            uploading: 1,
+            uploaded: 0,
+            remoteSource: 'qiniu',
+            removeSourceName: '七牛云'
+          })
+        })
+      )
+      window.bank.upload(waitToUploadFiles)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="h-full">
@@ -25,7 +85,7 @@ export default function Upload() {
         <div className="pt-8 px-4 shrink-0">
           <p className="text-center text-lg uppercase font-bold text-slate-600">Upload Files</p>
           <p className="text-center text-sm text-slate-500 mt-1">Upload you image to cdn.</p>
-          <FileChoice />
+          <FileChoice onUpload={handleUpload} />
         </div>
         <div className="text-slate-400 mt-7 grow flex flex-col overflow-scroll">
           <p className="text-sm px-4 text-slate-400">Uploaded Files</p>

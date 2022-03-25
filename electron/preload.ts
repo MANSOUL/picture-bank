@@ -2,14 +2,15 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-18 18:51:28
+ * @LastEditTime: 2022-03-25 09:53:19
  * @Description: file content
  */
-import { ipcRenderer, contextBridge, clipboard } from 'electron'
+import { ipcRenderer, IpcRendererEvent, contextBridge, clipboard } from 'electron'
 import createExtensionHost from './extension'
 
 const extensionHost = createExtensionHost()
 const progressEvents: ProgressEventListener[] = []
+const mainApiCallbacks: Map<string, MainApiCallback<any>> = new Map()
 
 declare global {
   interface Window {
@@ -34,8 +35,22 @@ const api = {
     return () => {
       progressEvents.splice(progressEvents.indexOf(e), 1)
     }
+  },
+  openFileDialog(callback: MainApiCallback<Electron.OpenDialogReturnValue>) {
+    const eventType = 'showOpenDialog'
+    const eventId = `${eventType}_${Date.now()}`
+    mainApiCallbacks.set(eventId, callback)
+    ipcRenderer.send('mainApi', eventType, eventId)
   }
 }
+
+ipcRenderer.on('mainApiResult', (_event: IpcRendererEvent, eventId: string, data) => {
+  const callback = mainApiCallbacks.get(eventId)
+  if (callback) {
+    callback(data.error, data.data)
+    mainApiCallbacks.delete(eventId)
+  }
+})
 
 extensionHost.on('message', (data: ExtensionHostMessage) => {
   if (data.type === 'progress') {

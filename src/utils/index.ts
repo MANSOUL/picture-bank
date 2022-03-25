@@ -2,24 +2,28 @@
  * @Author: kuanggf
  * @Date: 2022-03-15 16:21:57
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-18 10:19:41
+ * @LastEditTime: 2022-03-25 10:02:36
  * @Description: file content
  */
 
 export function cloneFiles(files: FileList): FileLike[] {
   return [...files].map((item: File) => ({
     name: item.name,
-    path: item.path,
-    size: item.size,
-    lastModified: item.lastModified,
-    webkitRelativePath: item.webkitRelativePath,
-    type: item.type
+    path: item.path
   }))
 }
 
 export function getExtension(fileName: string) {
   const lastIndexDot = fileName.lastIndexOf('.') + 1
   return fileName.substring(lastIndexDot)
+}
+
+export function createFileLikeByPath(path: string): FileLike {
+  const name = path.substring(path.lastIndexOf('/') + 1)
+  return {
+    name,
+    path
+  }
 }
 
 export default function none() {

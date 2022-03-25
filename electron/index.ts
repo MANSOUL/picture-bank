@@ -2,14 +2,14 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-15 15:26:10
+ * @LastEditTime: 2022-03-25 09:54:23
  * @Description: file content
  */
 // Native
 import { join } from 'path'
 
 // Packages
-import { BrowserWindow, app, ipcMain, IpcMainEvent } from 'electron'
+import { BrowserWindow, app, ipcMain, IpcMainEvent, dialog } from 'electron'
 import isDev from 'electron-is-dev'
 
 const height = 600
@@ -79,11 +79,21 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-
-// listen the channel `message` and resend the received message to the renderer process
-ipcMain.on('message', (event: IpcMainEvent, message: any) => {
-  console.log(message)
-  setTimeout(() => event.sender.send('message', 'hi from electron'), 500)
+ipcMain.on('mainApi', (event: IpcMainEvent, apiType, eventId) => {
+  if (apiType === 'showOpenDialog') {
+    dialog
+      .showOpenDialog({ properties: ['openFile', 'multiSelections'] })
+      .then((result) => {
+        event.sender.send('mainApiResult', eventId, {
+          error: null,
+          data: result
+        })
+      })
+      .catch((err) => {
+        event.sender.send('mainApiResult', eventId, {
+          error: err,
+          data: null
+        })
+      })
+  }
 })

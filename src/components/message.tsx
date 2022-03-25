@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-20 16:52:42
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-20 17:59:33
+ * @LastEditTime: 2022-03-25 11:40:32
  * @Description: file content
  */
 import React, { useEffect, useState } from 'react'
@@ -33,7 +33,7 @@ export default function Message() {
             ...nextMessage,
             visible: false
           })
-        }, info.duration)
+        }, nextMessage.duration)
       }
     }
     return () => {

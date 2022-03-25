@@ -33,7 +33,8 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "^1.2.0",
-    "axios": "^0.26.1",
+    "dexie": "^3.2.1",
+    "dexie-react-hooks": "^1.1.1",
     "electron-is-dev": "^2.0.0",
     "got": "^12.0.2",
     "lodash": "^4.17.21",

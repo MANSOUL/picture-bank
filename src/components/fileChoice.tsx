@@ -2,21 +2,37 @@
  * @Author: kuanggf
  * @Date: 2022-03-14 17:51:16
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-15 16:25:21
+ * @LastEditTime: 2022-03-25 10:08:53
  * @Description: file content
  */
 import React from 'react'
 import UploadIcon from './uploadIcon'
-import { cloneFiles } from '../utils'
+import { cloneFiles, createFileLikeByPath } from '../utils'
 
-export default function FileChoice() {
+interface FileChoiceProps {
+  onUpload(files: FileLike[]): void
+}
+
+export default function FileChoice({ onUpload }: FileChoiceProps) {
   const handleDrop: React.DragEventHandler = (e) => {
     e.preventDefault()
     const { files } = e.dataTransfer
-    console.log(files)
     if (files) {
-      window.bank.upload(cloneFiles(files))
+      onUpload(cloneFiles(files))
     }
+  }
+
+  const handleOpenFileChoose = () => {
+    window.bank.openFileDialog((error, data) => {
+      if (error) {
+        return
+      }
+      if (data.canceled) return
+      if (data.filePaths.length > 0) {
+        const files = data.filePaths.map((item) => createFileLikeByPath(item))
+        onUpload(files)
+      }
+    })
   }
 
   return (
@@ -31,7 +47,10 @@ export default function FileChoice() {
       </div>
       <p className="font-sans text-sm text-slate-500">Drag & Drop your files here</p>
       <p className="text-sm text-slate-400 my-1.5">OR</p>
-      <button className="bg-indigo-500 hover:bg-indigo-600 text-xs text-white rounded-sm px-4 py-1.5 shadow-lg shadow-indigo-500/50">
+      <button
+        onClick={handleOpenFileChoose}
+        className="bg-indigo-500 hover:bg-indigo-600 active:translate-y-0.5 text-xs text-white rounded-sm px-4 py-1.5 shadow-lg shadow-indigo-500/50"
+      >
         Browser Files
       </button>
     </div>
