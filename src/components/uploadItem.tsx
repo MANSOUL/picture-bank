@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-14 12:02:44
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-18 18:59:43
+ * @LastEditTime: 2022-03-25 11:44:58
  * @Description: file content
  */
 import React from 'react'
@@ -18,6 +18,11 @@ export default function UploadItem({ data }: UploadItemProps) {
   const handleCopyLink = () => {
     if (data.done && !data.fail) {
       window.bank.writeTextToClipboard(data.link)
+      window.showMessage({
+        type: 'success',
+        message: '图片链接已复制',
+        visible: true
+      })
     }
   }
 
