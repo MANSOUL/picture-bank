@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-25 13:46:09
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 15:28:09
+ * @LastEditTime: 2022-03-25 17:24:52
  * @Description: file content
  */
 import React from 'react'
@@ -26,7 +26,7 @@ export default function Empty({ size = 'medium' }: EmptyProps) {
   if (size === 'medium') {
     wrapperClassName += ' w-16'
     className = 'w-16 h-16'
-    textClassName += 'text-sm'
+    textClassName += ' text-sm'
   }
 
   return (
