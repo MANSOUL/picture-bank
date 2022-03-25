@@ -2,11 +2,11 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-20 16:54:31
+ * @LastEditTime: 2022-03-25 15:12:18
  * @Description: file content
  */
 import React, { useState } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import LibarayIcon from '../components/libarayIcon'
 import MenuItem from '../components/menuItem'
 import Message from '../components/message'
@@ -15,8 +15,9 @@ import Album from './album'
 import Upload from './upload'
 
 export default function Layout() {
+  const location = useLocation()
   const navigate = useNavigate()
-  const [page, setPage] = useState('/')
+  const [page, setPage] = useState(location.pathname || '/')
 
   const handleChangePage = (_page: string) => {
     setPage(_page)

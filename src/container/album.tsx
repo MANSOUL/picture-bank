@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 15:09:38
+ * @LastEditTime: 2022-03-25 15:12:49
  * @Description: file content
  */
 import { useLiveQuery } from 'dexie-react-hooks'
@@ -20,7 +20,7 @@ export default function Album() {
         {pictures && pictures.length ? pictures.map((item) => <PictureItem data={item} />) : null}
       </div>
       {!pictures || !pictures.length ? (
-        <div className="flex justify-center items-center w-full h-full">
+        <div className="flex pb-20 justify-center items-center w-full h-full">
           <Empty />
         </div>
       ) : null}
