@@ -46,8 +46,9 @@ const api = {
   },
   onSetting(callback: OnSettingCallback) {
     onSettingCallback = callback
-    callback(settingMap)
-
+    if (settingMap.size > 0) {
+      callback(settingMap)
+    }
     return () => {
       onSettingCallback = null
     }

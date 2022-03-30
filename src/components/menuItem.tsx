@@ -9,20 +9,35 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 interface MenuItemProps {
-  icon: PropTypes.ReactElementLike
+  icon?: PropTypes.ReactElementLike
   title: string
-  active: boolean
+  active?: boolean
   onClick: React.MouseEventHandler
+  bgColor?: string
+  activeBgColor?: string
+  size?: 'small' | 'medium'
 }
 
-export default function MenuItem({ icon, title, active, onClick }: MenuItemProps) {
-  const containerClassName = `w-full group p-2 rounded-md flex items-center justify-start cursor-pointer ${
-    active ? 'bg-indigo-500' : ''
+export default function MenuItem({
+  icon,
+  title,
+  active = false,
+  onClick,
+  bgColor = '',
+  activeBgColor = 'bg-indigo-500',
+  size = 'medium'
+}: MenuItemProps) {
+  const containerClassName = `w-full group ${
+    size === 'small' ? 'p-1.5' : 'p-2'
+  } rounded-md flex items-center justify-start cursor-pointer ${active ? activeBgColor : bgColor}`
+  let titleClassName = `${size === 'small' ? 'text-sm' : 'text-md'} ${
+    active ? 'text-white' : 'text-black/70  group-hover:text-black'
   }`
-  const titleClassName = `text-md ${active ? 'text-white' : 'text-black/70  group-hover:text-black'} ml-3`
+  if (icon) titleClassName += ' ml-3'
+
   return (
     <button className={containerClassName} onClick={onClick}>
-      <div className="w-6 h-6">{icon}</div>
+      {icon ? <div className="w-6 h-6">{icon}</div> : null}
       <div className={titleClassName}>{title}</div>
     </button>
   )
