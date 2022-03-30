@@ -3,5 +3,32 @@
   "displayName": "七牛云",
   "description": "上传文件到七牛云",
   "version": "0.0.1",
-  "main": "./bundle.js"
+  "main": "./bundle.js",
+  "setting": [
+    {
+      "key": "accessKey",
+      "displayName": "AccessKey"
+    },
+    {
+      "key": "secretKey",
+      "displayName": "SecretKey"
+    },
+    {
+      "key": "uploadURL",
+      "displayName": "请求地址"
+    },
+    {
+      "key": "bucket",
+      "displayName": "Bucket"
+    },
+    {
+      "key": "origin",
+      "displayName": "图片域名"
+    },
+    {
+      "key": "protocol",
+      "displayName": "协议",
+      "defaultValue": "http"
+    }
+  ]
 }

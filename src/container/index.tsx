@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 15:12:18
+ * @LastEditTime: 2022-03-26 17:44:30
  * @Description: file content
  */
 import React, { useState } from 'react'
@@ -10,8 +10,10 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import LibarayIcon from '../components/libarayIcon'
 import MenuItem from '../components/menuItem'
 import Message from '../components/message'
+import SettingIcon from '../components/settingIcon'
 import UploadIcon from '../components/uploadIcon'
 import Album from './album'
+import Setting from './setting'
 import Upload from './upload'
 
 export default function Layout() {
@@ -54,12 +56,25 @@ export default function Layout() {
                 onClick={() => handleChangePage('/libaray')}
               />
             </li>
+            <li className="mb-2">
+              <MenuItem
+                icon={
+                  <SettingIcon
+                    className={`${page === '/setting' ? 'fill-white' : 'fill-gray-400 group-hover:fill-gray-600'}`}
+                  />
+                }
+                title="Settinng"
+                active={page === '/setting'}
+                onClick={() => handleChangePage('/setting')}
+              />
+            </li>
           </ul>
         </div>
         <div className="grow">
           <Routes>
             <Route path="/" element={<Upload />} />
             <Route path="/libaray" element={<Album />} />
+            <Route path="/setting" element={<Setting />} />
           </Routes>
         </div>
       </div>
