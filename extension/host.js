@@ -6,7 +6,8 @@
  * @Description: file content
  */
 const EventEmitter = require('events')
-const extension = require('./installed/qiniu')
+const loadExtension = require('./loadExtension')
+const loadSetting = require('./loadSetting')
 
 class MyEmitter extends EventEmitter {}
 
@@ -25,4 +26,5 @@ process.on('message', (data) => {
   }
 })
 
-extension(myEmitter)
+loadExtension('qiniu', myEmitter)
+loadSetting('qiniu')

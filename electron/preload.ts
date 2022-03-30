@@ -11,6 +11,8 @@ import createExtensionHost from './extension'
 const extensionHost = createExtensionHost()
 const progressEvents: ProgressEventListener[] = []
 const mainApiCallbacks: Map<string, MainApiCallback<any>> = new Map()
+let onSettingCallback: OnSettingCallback | null = null
+const settingMap: SettingMap = new Map()
 
 declare global {
   interface Window {
@@ -41,6 +43,14 @@ const api = {
     const eventId = `${eventType}_${Date.now()}`
     mainApiCallbacks.set(eventId, callback)
     ipcRenderer.send('mainApi', eventType, eventId)
+  },
+  onSetting(callback: OnSettingCallback) {
+    onSettingCallback = callback
+    callback(settingMap)
+
+    return () => {
+      onSettingCallback = null
+    }
   }
 }
 
@@ -55,6 +65,12 @@ ipcRenderer.on('mainApiResult', (_event: IpcRendererEvent, eventId: string, data
 extensionHost.on('message', (data: ExtensionHostMessage) => {
   if (data.type === 'progress') {
     progressEvents.forEach((e) => e(data.data))
+  }
+  if (data.type === 'setting') {
+    settingMap.set(data.data.extension, data.data)
+    if (onSettingCallback) {
+      onSettingCallback(settingMap)
+    }
   }
 })
 

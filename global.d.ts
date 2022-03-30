@@ -21,14 +21,34 @@ interface FileLikeUpload extends FileLike {
   h: number
 }
 
+interface ExtensionHostMessageOfProgress {
+  type: 'progress'
+  data: Array<FileLikeUpload>
+}
+
+// 设置
+interface SettingObject {
+  key: string
+  displayName: string
+  defaultValue: string
+}
+
+interface SettingExtensionHostMessageData {
+  extension: string
+  extensionDisplayName: string
+  setting: SettingObject[]
+}
+
+interface ExtensionHostMessageOfSetting {
+  type: 'setting'
+  data: SettingExtensionHostMessageData
+}
+
 interface ProgressEventListener {
   (data: Array<FileLikeUpload>): void
 }
 
-interface ExtensionHostMessage {
-  type: 'progress'
-  data: Array<FileLikeUpload>
-}
+type ExtensionHostMessage = ExtensionHostMessageOfProgress | ExtensionHostMessageOfSetting
 
 interface MessageInfo {
   visible: boolean
@@ -43,4 +63,10 @@ interface Window {
 
 interface MainApiCallback<DataType> {
   (error: any, data: DataType): void
+}
+
+type SettingMap = Map<string, SettingExtensionHostMessageData>
+
+interface OnSettingCallback {
+  (data: SettingMap): void
 }

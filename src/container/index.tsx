@@ -63,7 +63,7 @@ export default function Layout() {
                     className={`${page === '/setting' ? 'fill-white' : 'fill-gray-400 group-hover:fill-gray-600'}`}
                   />
                 }
-                title="Settinng"
+                title="Setting"
                 active={page === '/setting'}
                 onClick={() => handleChangePage('/setting')}
               />
