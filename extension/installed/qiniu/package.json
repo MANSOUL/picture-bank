@@ -7,28 +7,40 @@
   "setting": [
     {
       "key": "accessKey",
-      "displayName": "AccessKey"
+      "displayName": "AccessKey",
+      "placeholder": "请输入AccessKey",
+      "required": true
     },
     {
       "key": "secretKey",
-      "displayName": "SecretKey"
+      "displayName": "SecretKey",
+      "placeholder": "请输入SecretKey",
+      "required": true
     },
     {
       "key": "uploadURL",
-      "displayName": "请求地址"
+      "displayName": "上传区域",
+      "placeholder": "请输入上传区域",
+      "required": true
     },
     {
       "key": "bucket",
-      "displayName": "Bucket"
+      "displayName": "Bucket",
+      "placeholder": "请输入Bucket",
+      "required": true
     },
     {
       "key": "origin",
-      "displayName": "图片域名"
+      "displayName": "图片域名",
+      "placeholder": "请输入图片域名",
+      "required": true
     },
     {
       "key": "protocol",
       "displayName": "协议",
-      "defaultValue": "http"
+      "defaultValue": "http",
+      "placeholder": "请输入协议",
+      "required": false
     }
   ]
 }

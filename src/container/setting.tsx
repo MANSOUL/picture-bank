@@ -31,7 +31,7 @@ export default function Setting() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex p-6">
       <div className="w-28 shrink-0 pt-4">
         <ul>
           {Array.from(settings.entries()).map((item, index) => (
