@@ -30,7 +30,7 @@ interface ExtensionHostMessageOfProgress {
 interface SettingObject {
   key: string
   displayName: string
-  defaultValue?: string
+  value?: string
   placeholder?: string
   required?: boolean
 }

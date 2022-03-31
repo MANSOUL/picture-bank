@@ -52,6 +52,15 @@ const api = {
     return () => {
       onSettingCallback = null
     }
+  },
+  applySetting(extension: string, setting: { [k: string]: string }) {
+    extensionHost.send({
+      type: 'setting',
+      data: {
+        extension,
+        setting
+      }
+    })
   }
 }
 

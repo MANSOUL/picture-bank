@@ -38,7 +38,7 @@
     {
       "key": "protocol",
       "displayName": "协议",
-      "defaultValue": "http",
+      "value": "http",
       "placeholder": "请输入协议",
       "required": false
     }

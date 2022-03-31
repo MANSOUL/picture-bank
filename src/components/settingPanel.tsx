@@ -15,7 +15,7 @@ interface SettingItemRefObject {
 }
 
 function SettingItem({ data }: SettingItemProps, ref: any) {
-  const [value, setValue] = useState(data.defaultValue || '')
+  const [value, setValue] = useState(data.value || '')
   const [isWarn, setIsWarn] = useState(false)
 
   useImperativeHandle(

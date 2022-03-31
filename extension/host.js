@@ -24,7 +24,11 @@ process.on('message', (data) => {
   if (data.type === 'upload') {
     myEmitter.emit('upload', data.data)
   }
+  if (data.type === 'setting') {
+    const { extension, setting } = data.data
+    loadSetting.mergeValueToSetting(extension, setting)
+  }
 })
 
 loadExtension('qiniu', myEmitter)
-loadSetting('qiniu')
+loadSetting.readSetting('qiniu')

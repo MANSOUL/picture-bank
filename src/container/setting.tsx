@@ -36,7 +36,7 @@ export default function Setting() {
   }
 
   const handleApply = (data: { [k: string]: string }) => {
-    console.log(settingKey, data)
+    window.bank.applySetting(settingKey, data)
   }
 
   return (
