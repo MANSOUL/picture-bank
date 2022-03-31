@@ -12,14 +12,19 @@ import SettingPanel from '../components/settingPanel'
 export default function Setting() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [settings, setSettings] = useState<SettingMap>(new Map())
+  const [settingKey, setSettingKey] = useState('')
   const [setting, setSetting] = useState<SettingObject[]>([])
 
   useEffect(() => {
     const removeListener = window.bank.onSetting((data) => {
-      console.log(data)
       setSettings(data)
       if (activeIndex === 0) {
-        setSetting(Array.from(data.values())[0].setting)
+        const initialKey = Array.from(data.keys())[0]
+        const initialValue = data.get(initialKey)
+        if (initialValue) {
+          setSettingKey(initialKey)
+          setSetting(initialValue.setting)
+        }
       }
     })
     return () => removeListener()
@@ -28,6 +33,10 @@ export default function Setting() {
   const handleChangeSetting = (index: number, key: string) => {
     setActiveIndex(index)
     setSetting(settings.get(key)?.setting || [])
+  }
+
+  const handleApply = (data: { [k: string]: string }) => {
+    console.log(settingKey, data)
   }
 
   return (
@@ -48,7 +57,7 @@ export default function Setting() {
         </ul>
       </div>
       <div className="grow">
-        <SettingPanel data={setting} />
+        <SettingPanel data={setting} onApply={handleApply} />
       </div>
     </div>
   )

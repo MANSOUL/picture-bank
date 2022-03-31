@@ -6,28 +6,47 @@ interface SettingItemProps {
 
 interface SettingPanelProps {
   data: SettingObject[]
+  onApply(data: { [k: string]: string }): void
 }
 
 interface SettingItemRefObject {
   validate(): boolean
+  getValue(): [string, string]
 }
 
 function SettingItem({ data }: SettingItemProps, ref: any) {
-  const [value, setValue] = useState(data.defaultValue)
+  const [value, setValue] = useState(data.defaultValue || '')
+  const [isWarn, setIsWarn] = useState(false)
 
-  useImperativeHandle(ref, () => ({
-    validate() {
-      console.log('validate')
-      return false
-    }
-  }))
+  useImperativeHandle(
+    ref,
+    () => ({
+      validate() {
+        if (data.required && !value) {
+          setIsWarn(true)
+          return false
+        }
+        setIsWarn(false)
+        return true
+      },
+      getValue() {
+        return [data.key, value]
+      }
+    }),
+    [value]
+  )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
+    setIsWarn(false)
+    setValue(e.target.value.trim())
   }
 
+  const className = `flex items-center py-5 ${isWarn ? 'text-red-600' : 'text-slate-600'} border-b ${
+    isWarn ? 'border-red-400' : 'border-slate-200'
+  }`
+
   return (
-    <div className="flex items-center py-5 text-slate-600 border-b border-slate-200">
+    <div className={className}>
       <div className="w-24 shrink-0 text-sm">
         {data.displayName}
         {data.required ? <sup>*</sup> : null}
@@ -46,18 +65,38 @@ function SettingItem({ data }: SettingItemProps, ref: any) {
 
 const SettingItemWithRef = forwardRef(SettingItem)
 
-export default function SettingPanel({ data }: SettingPanelProps) {
+export default function SettingPanel({ data, onApply }: SettingPanelProps) {
   const refs = useRef<SettingItemRefObject[]>([])
 
+  const handleRef = (ref: SettingItemRefObject, index: number) => {
+    if (ref) {
+      refs.current[index] = ref
+    }
+  }
+
   const handleApply = () => {
-    console.log(refs.current.map((ref) => ref.validate()))
+    const isValidate = refs.current
+      .map((ref) => {
+        return ref.validate()
+      })
+      .every((isPass) => isPass)
+    if (isValidate) {
+      const obj = new Map<string, string>()
+      refs.current.forEach((ref) => {
+        const refValue = ref.getValue()
+        const [key, value] = refValue
+        obj.set(key, value)
+      })
+      const settingData = Object.fromEntries(obj.entries())
+      onApply(settingData)
+    }
   }
 
   return (
     <div className="p-6 pt-0">
       <div className="">
-        {data.map((item) => (
-          <SettingItemWithRef key={item.key} ref={(ref: SettingItemRefObject) => refs.current.push(ref)} data={item} />
+        {data.map((item, index) => (
+          <SettingItemWithRef key={item.key} ref={(ref: SettingItemRefObject) => handleRef(ref, index)} data={item} />
         ))}
       </div>
       <div className="mt-8 flex justify-end">
