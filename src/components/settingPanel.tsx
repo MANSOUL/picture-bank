@@ -100,12 +100,14 @@ export default function SettingPanel({ data, onApply }: SettingPanelProps) {
         ))}
       </div>
       <div className="mt-8 flex justify-end">
-        <button
-          onClick={handleApply}
-          className="bg-indigo-500 hover:bg-indigo-600 active:translate-y-0.5 text-sm text-white rounded-sm px-4 py-1.5 shadow-lg shadow-indigo-500/50"
-        >
-          应用
-        </button>
+        {data.length ? (
+          <button
+            onClick={handleApply}
+            className="bg-indigo-500 hover:bg-indigo-600 active:translate-y-0.5 text-sm text-white rounded-sm px-4 py-1.5 shadow-lg shadow-indigo-500/50"
+          >
+            应用
+          </button>
+        ) : null}
       </div>
     </div>
   )
