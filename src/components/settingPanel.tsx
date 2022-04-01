@@ -47,7 +47,7 @@ function SettingItem({ data }: SettingItemProps, ref: any) {
 
   return (
     <div className={className}>
-      <div className="w-24 shrink-0 text-sm">
+      <div className="w-28 shrink-0 text-sm">
         {data.displayName}
         {data.required ? <sup>*</sup> : null}
       </div>
