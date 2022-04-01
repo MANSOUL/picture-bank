@@ -1,0 +1,12 @@
+{
+  "MENU_ADD": "Add",
+  "MENU_LIBARAY": "Libaray",
+  "MENU_SETTING": "Setting",
+  "TITLE_UPLOAD_FILES": "UPLOAD FILES",
+  "DESC_UPLOAD": "Upload you image to cdn.",
+  "DESC_DRAG_HERE": "Drag & Drop your files here",
+  "DESC_OR": "OR",
+  "BUTTON_BROWSER_FILES": "Browser Files",
+  "TITLE_UPLOADED_FILES": "Uploaded Files",
+  "DESC_EMPTY": "Empty"
+}

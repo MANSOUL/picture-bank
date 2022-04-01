@@ -1,0 +1,12 @@
+{
+  "MENU_ADD": "添加",
+  "MENU_LIBARAY": "图库",
+  "MENU_SETTING": "设置",
+  "TITLE_UPLOAD_FILES": "上传文件",
+  "DESC_UPLOAD": "上传文件上传到CDN",
+  "DESC_DRAG_HERE": "将你的文件拖到这里",
+  "DESC_OR": "或",
+  "BUTTON_BROWSER_FILES": "浏览文件",
+  "TITLE_UPLOADED_FILES": "已上传",
+  "DESC_EMPTY": "空"
+}
