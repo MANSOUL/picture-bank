@@ -8,12 +8,15 @@
 import React from 'react'
 import UploadIcon from './uploadIcon'
 import { cloneFiles, createFileLikeByPath } from '../utils'
+import { useLang } from '../context/lang'
 
 interface FileChoiceProps {
   onUpload(files: FileLike[]): void
 }
 
 export default function FileChoice({ onUpload }: FileChoiceProps) {
+  const langContext = useLang()
+
   const handleDrop: React.DragEventHandler = (e) => {
     e.preventDefault()
     const { files } = e.dataTransfer
@@ -45,13 +48,13 @@ export default function FileChoice({ onUpload }: FileChoiceProps) {
       <div className="w-14 h-14">
         <UploadIcon className="fill-indigo-200" />
       </div>
-      <p className="font-sans text-sm text-slate-500">Drag & Drop your files here</p>
-      <p className="text-sm text-slate-400 my-1.5">OR</p>
+      <p className="font-sans text-sm text-slate-500">{langContext.lang.DESC_DRAG_HERE}</p>
+      <p className="text-sm text-slate-400 my-1.5">{langContext.lang.DESC_OR}</p>
       <button
         onClick={handleOpenFileChoose}
         className="bg-indigo-500 hover:bg-indigo-600 active:translate-y-0.5 text-xs text-white rounded-sm px-4 py-1.5 shadow-lg shadow-indigo-500/50"
       >
-        Browser Files
+        {langContext.lang.BUTTON_BROWSER_FILES}
       </button>
     </div>
   )

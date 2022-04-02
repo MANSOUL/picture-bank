@@ -1,4 +1,5 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import React, { forwardRef, useContext, useImperativeHandle, useRef, useState } from 'react'
+import { useLang } from '../context/lang'
 
 interface SettingItemProps {
   data: SettingObjectWithField
@@ -77,6 +78,7 @@ const SettingItemWithRef = forwardRef(SettingItem)
 
 export default function SettingPanel({ data, onApply }: SettingPanelProps) {
   const refs = useRef<SettingItemRefObject[]>([])
+  const langContext = useLang()
 
   const handleRef = (ref: SettingItemRefObject, index: number) => {
     if (ref) {
@@ -115,7 +117,7 @@ export default function SettingPanel({ data, onApply }: SettingPanelProps) {
             onClick={handleApply}
             className="bg-indigo-500 hover:bg-indigo-600 active:translate-y-0.5 text-sm text-white rounded-sm px-4 py-1.5 shadow-lg shadow-indigo-500/50"
           >
-            应用
+            {langContext.lang.BUTTON_APPLY}
           </button>
         ) : null}
       </div>

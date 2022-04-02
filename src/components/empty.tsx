@@ -6,6 +6,7 @@
  * @Description: file content
  */
 import React from 'react'
+import { useLang } from '../context/lang'
 import EmptyIcon from './emptyIcon'
 
 interface EmptyProps {
@@ -13,6 +14,8 @@ interface EmptyProps {
 }
 
 export default function Empty({ size = 'medium' }: EmptyProps) {
+  const langContext = useLang()
+
   let wrapperClassName = 'mx-auto mt-10'
   let className = ''
   let textClassName = 'text-center'
@@ -35,7 +38,7 @@ export default function Empty({ size = 'medium' }: EmptyProps) {
         <EmptyIcon color="rgba(148, 163, 184)" />
       </div>
       <div className={textClassName} style={{ color: 'rgb(148, 163, 184)' }}>
-        Empty
+        {langContext.lang.DESC_EMPTY}
       </div>
     </div>
   )

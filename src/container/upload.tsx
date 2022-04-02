@@ -9,10 +9,12 @@ import React, { useEffect, useState } from 'react'
 import Empty from '../components/empty'
 import FileChoice from '../components/fileChoice'
 import UploadItem from '../components/uploadItem'
+import { useLang } from '../context/lang'
 import { db } from '../db'
 
 export default function Upload() {
   const [uploadList, setUploadList] = useState<FileLikeUpload[]>([])
+  const langContext = useLang()
 
   useEffect(() => {
     const removeListener = window.bank.onProgress((e) => {
@@ -86,12 +88,14 @@ export default function Upload() {
     <div className="h-full">
       <div className="max-w-lg mx-auto h-full flex flex-col">
         <div className="pt-8 px-4 shrink-0">
-          <p className="text-center text-lg uppercase font-bold text-slate-600">Upload Files</p>
-          <p className="text-center text-sm text-slate-500 mt-1">Upload you image to cdn.</p>
+          <p className="text-center text-lg uppercase font-bold text-slate-600">
+            {langContext.lang.TITLE_UPLOAD_FILES}
+          </p>
+          <p className="text-center text-sm text-slate-500 mt-1">{langContext.lang.DESC_UPLOAD}</p>
           <FileChoice onUpload={handleUpload} />
         </div>
         <div className="text-slate-400 mt-7 grow flex flex-col overflow-scroll">
-          <p className="text-sm px-4 text-slate-400">Uploaded Files</p>
+          <p className="text-sm px-4 text-slate-400">{langContext.lang.TITLE_UPLOADED_FILES}</p>
           {uploadList.length > 0 ? (
             <div className="pb-9 px-4 overflow-scroll">
               <ul>

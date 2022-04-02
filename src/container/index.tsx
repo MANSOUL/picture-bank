@@ -5,7 +5,7 @@
  * @LastEditTime: 2022-03-26 17:44:30
  * @Description: file content
  */
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import LibarayIcon from '../components/libarayIcon'
 import MenuItem from '../components/menuItem'
@@ -15,11 +15,20 @@ import UploadIcon from '../components/uploadIcon'
 import Album from './album'
 import Setting from './setting'
 import Upload from './upload'
+import langContext, { defaultLangData } from '../context/lang'
 
 export default function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
   const [page, setPage] = useState(location.pathname || '/')
+  const [lang, setLang] = useState(defaultLangData)
+
+  const langProviderValue = useMemo(() => {
+    return {
+      lang,
+      setLang
+    }
+  }, [lang])
 
   const handleChangePage = (_page: string) => {
     setPage(_page)
@@ -28,57 +37,59 @@ export default function Layout() {
 
   return (
     <div className="w-full h-full flex flex-col bg-gray-100">
-      <div className="h-9 shrink-0 bg-slate-200" id="title-bar" />
-      <div className="flex grow overflow-hidden">
-        <div className="w-56 p-5 pr-0 shrink-0">
-          <ul>
-            <li className="mb-2">
-              <MenuItem
-                icon={
-                  <UploadIcon
-                    className={`${page === '/' ? 'fill-white' : 'fill-gray-400 group-hover:fill-gray-600'}`}
-                  />
-                }
-                title="Add"
-                active={page === '/'}
-                onClick={() => handleChangePage('/')}
-              />
-            </li>
-            <li className="mb-2">
-              <MenuItem
-                icon={
-                  <LibarayIcon
-                    className={`${page === '/libaray' ? 'fill-white' : 'fill-gray-400 group-hover:fill-gray-600'}`}
-                  />
-                }
-                title="Libaray"
-                active={page === '/libaray'}
-                onClick={() => handleChangePage('/libaray')}
-              />
-            </li>
-            <li className="mb-2">
-              <MenuItem
-                icon={
-                  <SettingIcon
-                    className={`${page === '/setting' ? 'fill-white' : 'fill-gray-400 group-hover:fill-gray-600'}`}
-                  />
-                }
-                title="Setting"
-                active={page === '/setting'}
-                onClick={() => handleChangePage('/setting')}
-              />
-            </li>
-          </ul>
+      <langContext.Provider value={langProviderValue}>
+        <div className="h-9 shrink-0 bg-slate-200" id="title-bar" />
+        <div className="flex grow overflow-hidden">
+          <div className="w-56 p-5 pr-0 shrink-0">
+            <ul>
+              <li className="mb-2">
+                <MenuItem
+                  icon={
+                    <UploadIcon
+                      className={`${page === '/' ? 'fill-white' : 'fill-gray-400 group-hover:fill-gray-600'}`}
+                    />
+                  }
+                  title={lang.MENU_ADD}
+                  active={page === '/'}
+                  onClick={() => handleChangePage('/')}
+                />
+              </li>
+              <li className="mb-2">
+                <MenuItem
+                  icon={
+                    <LibarayIcon
+                      className={`${page === '/libaray' ? 'fill-white' : 'fill-gray-400 group-hover:fill-gray-600'}`}
+                    />
+                  }
+                  title={lang.MENU_LIBARAY}
+                  active={page === '/libaray'}
+                  onClick={() => handleChangePage('/libaray')}
+                />
+              </li>
+              <li className="mb-2">
+                <MenuItem
+                  icon={
+                    <SettingIcon
+                      className={`${page === '/setting' ? 'fill-white' : 'fill-gray-400 group-hover:fill-gray-600'}`}
+                    />
+                  }
+                  title={lang.MENU_SETTING}
+                  active={page === '/setting'}
+                  onClick={() => handleChangePage('/setting')}
+                />
+              </li>
+            </ul>
+          </div>
+          <div className="grow">
+            <Routes>
+              <Route path="/" element={<Upload />} />
+              <Route path="/libaray" element={<Album />} />
+              <Route path="/setting" element={<Setting />} />
+            </Routes>
+          </div>
         </div>
-        <div className="grow">
-          <Routes>
-            <Route path="/" element={<Upload />} />
-            <Route path="/libaray" element={<Album />} />
-            <Route path="/setting" element={<Setting />} />
-          </Routes>
-        </div>
-      </div>
-      <Message />
+        <Message />
+      </langContext.Provider>
     </div>
   )
 }
