@@ -7,12 +7,18 @@
  */
 import { ipcRenderer, IpcRendererEvent, contextBridge, clipboard } from 'electron'
 import createExtensionHost from './extension'
+import createLangHost from './lang'
 
 const extensionHost = createExtensionHost()
-const progressEvents: ProgressEventListener[] = []
-const mainApiCallbacks: Map<string, MainApiCallback<any>> = new Map()
-let onSettingCallback: OnSettingCallback | null = null
-const settingMap: SettingMap = new Map()
+const langHost = createLangHost()
+
+const progressEvents: ProgressEventListener[] = [] // 存放监听上传进度的事件
+const mainApiCallbacks: Map<string, MainApiCallback<any>> = new Map() // 存放调用主线程API的回调函数
+const settingMap: SettingMap = new Map() // 存放所有插件的设置
+let onSettingCallback: OnSettingCallback | null = null // 通知UI设置项有变化
+let langsList: string[] = []
+let onLangsListChangeCallback: OnLangsListChangeCallback | null = null // 通知UI语言列表有变化
+let onLangDataChangeCallBack: OnLangChangeCallback | null = null // 通知UI新的语言数据
 
 declare global {
   interface Window {
@@ -61,6 +67,18 @@ const api = {
         setting
       }
     })
+  },
+  onLangsListChange(callback: OnLangsListChangeCallback) {
+    onLangsListChangeCallback = callback
+    if (langsList.length > 0) {
+      onLangsListChangeCallback(langsList)
+    }
+    return () => {
+      onLangsListChangeCallback = null
+    }
+  },
+  onLangDataChange(callback: OnLangChangeCallback) {
+    onLangDataChangeCallBack = callback
   }
 }
 
@@ -81,6 +99,18 @@ extensionHost.on('message', (data: ExtensionHostMessage) => {
     if (onSettingCallback) {
       onSettingCallback(settingMap)
     }
+  }
+})
+
+langHost.on('message', (data: LangHostMessage) => {
+  if (data.type === 'langsList') {
+    langsList = data.data
+    if (onLangsListChangeCallback) {
+      onLangsListChangeCallback(langsList)
+    }
+  }
+  if (data.type === 'langData' && onLangDataChangeCallBack) {
+    onLangDataChangeCallBack(data.data)
   }
 })
 

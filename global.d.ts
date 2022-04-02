@@ -72,3 +72,31 @@ type SettingMap = Map<string, SettingExtensionHostMessageData>
 interface OnSettingCallback {
   (data: SettingMap): void
 }
+
+// 语言宿主发送的信息-语言列表
+interface LangHostMessageOfLangsList {
+  type: 'langsList'
+  data: string[]
+}
+
+interface LangData {
+  lang: string
+  langJsonData: string
+}
+
+// 语言宿主发送的信息-语言数据
+interface LangHostMessageOfLangData {
+  type: 'langData'
+  data: LangData
+}
+
+// 语言宿主发送的信息-联合类型
+type LangHostMessage = LangHostMessageOfLangsList | LangHostMessageOfLangData
+
+interface OnLangsListChangeCallback {
+  (langs: string[]): void
+}
+
+interface OnLangChangeCallback {
+  (data: LangData): void
+}
