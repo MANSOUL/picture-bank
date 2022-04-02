@@ -1,11 +1,11 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 
 interface SettingItemProps {
-  data: SettingObject
+  data: SettingObjectWithField
 }
 
 interface SettingPanelProps {
-  data: SettingObject[]
+  data: SettingObjectWithField[]
   onApply(data: { [k: string]: string }): void
 }
 
@@ -36,7 +36,7 @@ function SettingItem({ data }: SettingItemProps, ref: any) {
     [value]
   )
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setIsWarn(false)
     setValue(e.target.value.trim())
   }
@@ -52,12 +52,22 @@ function SettingItem({ data }: SettingItemProps, ref: any) {
         {data.required ? <sup>*</sup> : null}
       </div>
       <div className="grow">
-        <input
-          className="w-full bg-transparent outline-0 text-sm"
-          placeholder={data.placeholder ? data.placeholder : `请输入${data.displayName}`}
-          onChange={handleChange}
-          value={value}
-        />
+        {data.type === 'select' ? (
+          <select className="bg-transparent" onChange={handleChange}>
+            {data.options.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <input
+            className="w-full bg-transparent outline-0 text-sm"
+            placeholder={data.placeholder ? data.placeholder : `请输入${data.displayName}`}
+            onChange={handleChange}
+            value={value}
+          />
+        )}
       </div>
     </div>
   )

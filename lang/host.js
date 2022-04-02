@@ -19,7 +19,7 @@ function notifyLangsChange() {
 }
 
 function sendLang(lang) {
-  const langJsonData = fs.readFileSync(path.resolve(LANG_LIST_PATH, `${lang}.json`))
+  const langJsonData = fs.readFileSync(path.resolve(LANG_LIST_PATH, `${lang}.json`)).toString()
   process.send({
     type: 'langData',
     data: {

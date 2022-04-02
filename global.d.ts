@@ -26,7 +26,7 @@ interface ExtensionHostMessageOfProgress {
   data: Array<FileLikeUpload>
 }
 
-// 设置
+// 设置项
 interface SettingObject {
   key: string
   displayName: string
@@ -35,10 +35,21 @@ interface SettingObject {
   required?: boolean
 }
 
+interface SettingObjectInput extends SettingObject {
+  type: 'input'
+}
+
+interface SettingObjectSelect extends SettingObject {
+  type: 'select'
+  options: string[]
+}
+
+type SettingObjectWithField = SettingObjectInput | SettingObjectSelect
+
 interface SettingExtensionHostMessageData {
   extension: string
   extensionDisplayName: string
-  setting: SettingObject[]
+  setting: SettingObjectWithField[]
 }
 
 interface ExtensionHostMessageOfSetting {

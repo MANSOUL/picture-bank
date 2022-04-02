@@ -79,6 +79,9 @@ const api = {
   },
   onLangDataChange(callback: OnLangChangeCallback) {
     onLangDataChangeCallBack = callback
+    return () => {
+      onLangDataChangeCallBack = null
+    }
   },
   changeLang(lang: string) {
     langHost.send({
