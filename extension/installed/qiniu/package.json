@@ -40,7 +40,15 @@
       "displayName": "协议",
       "value": "http",
       "placeholder": "请输入协议",
-      "required": false
+      "required": false,
+      "type": "select",
+      "options": [{
+        "displayName": "http",
+        "value": "http"
+      },{
+        "displayName": "https",
+        "value": "https"
+      }]
     }
   ]
 }
