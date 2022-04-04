@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 09:53:19
+ * @LastEditTime: 2022-04-04 10:59:53
  * @Description: file content
  */
 import { ipcRenderer, IpcRendererEvent, contextBridge, clipboard } from 'electron'
@@ -16,7 +16,7 @@ const progressEvents: ProgressEventListener[] = [] // 存放监听上传进度�
 const mainApiCallbacks: Map<string, MainApiCallback<any>> = new Map() // 存放调用主线程API的回调函数
 const settingMap: SettingMap = new Map() // 存放所有插件的设置
 let onSettingCallback: OnSettingCallback | null = null // 通知UI设置项有变化
-let langsList: string[] = []
+let langsList: SettingObjectOption[] = []
 let onLangsListChangeCallback: OnLangsListChangeCallback | null = null // 通知UI语言列表有变化
 let onLangDataChangeCallBack: OnLangChangeCallback | null = null // 通知UI新的语言数据
 

@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-15 16:31:36
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 11:31:24
+ * @LastEditTime: 2022-04-04 11:01:17
  * @Description: file content
  */
 interface FileLike {
@@ -39,9 +39,14 @@ interface SettingObjectInput extends SettingObject {
   type: 'input'
 }
 
+interface SettingObjectOption {
+  displayName: string
+  value: string
+}
+
 interface SettingObjectSelect extends SettingObject {
   type: 'select'
-  options: string[]
+  options: SettingObjectOption[]
 }
 
 type SettingObjectWithField = SettingObjectInput | SettingObjectSelect
@@ -87,7 +92,7 @@ interface OnSettingCallback {
 // 语言宿主发送的信息-语言列表
 interface LangHostMessageOfLangsList {
   type: 'langsList'
-  data: string[]
+  data: SettingObjectOption[]
 }
 
 interface LangData {
@@ -105,7 +110,7 @@ interface LangHostMessageOfLangData {
 type LangHostMessage = LangHostMessageOfLangsList | LangHostMessageOfLangData
 
 interface OnLangsListChangeCallback {
-  (langs: string[]): void
+  (langs: SettingObjectOption[]): void
 }
 
 interface OnLangChangeCallback {

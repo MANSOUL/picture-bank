@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useImperativeHandle, useRef, useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import { useLang } from '../context/lang'
 
 interface SettingItemProps {
@@ -56,8 +56,8 @@ function SettingItem({ data }: SettingItemProps, ref: any) {
         {data.type === 'select' ? (
           <select className="bg-transparent" onChange={handleChange}>
             {data.options.map((item) => (
-              <option key={item} value={item}>
-                {item}
+              <option key={item.value} value={item.value}>
+                {item.displayName}
               </option>
             ))}
           </select>

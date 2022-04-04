@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-26 17:43:39
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-26 17:43:39
+ * @LastEditTime: 2022-04-04 11:00:43
  * @Description: file content
  */
 import React, { useEffect, useState } from 'react'
@@ -17,7 +17,7 @@ export default function Setting() {
   const [settings, setSettings] = useState<SettingMap>(new Map())
   const [settingKey, setSettingKey] = useState('')
   const [setting, setSetting] = useState<SettingObjectWithField[]>([])
-  const [langsList, setLangsList] = useState<string[]>([])
+  const [langsList, setLangsList] = useState<SettingObjectOption[]>([])
 
   useEffect(() => {
     const removeListener = window.bank.onSetting((data) => {
