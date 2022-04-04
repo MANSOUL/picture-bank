@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-04-04 11:28:52
+ * @LastEditTime: 2022-04-04 18:41:43
  * @Description: file content
  */
 import React, { useMemo, useState } from 'react'
@@ -22,7 +22,7 @@ export default function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
   const [page, setPage] = useState(location.pathname || '/')
-  const [lang, setLang] = useState(defaultLangData)
+  const [lang, setLang] = useState(langStorage.getLangCurrentData() || defaultLangData)
   const [langKey, setLangKey] = useState<string>(langStorage.getLangCurrent() || 'zh')
 
   const langProviderValue = useMemo(() => {
