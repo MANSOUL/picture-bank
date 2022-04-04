@@ -54,7 +54,7 @@ function SettingItem({ data }: SettingItemProps, ref: any) {
       </div>
       <div className="grow">
         {data.type === 'select' ? (
-          <select className="bg-transparent" onChange={handleChange}>
+          <select value={value} className="bg-transparent" onChange={handleChange}>
             {data.options.map((item) => (
               <option key={item.value} value={item.value}>
                 {item.displayName}

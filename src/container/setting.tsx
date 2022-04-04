@@ -2,22 +2,25 @@
  * @Author: kuanggf
  * @Date: 2022-03-26 17:43:39
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-04-04 11:00:43
+ * @LastEditTime: 2022-04-04 11:44:41
  * @Description: file content
  */
 import React, { useEffect, useState } from 'react'
 import MenuItem from '../components/menuItem'
 import SettingPanel from '../components/settingPanel'
 import createSettings from '../config/setting'
+import { useLang } from '../context/lang'
+import langStorage from '../context/lang/langStorage'
 
 const PREFERENCE = 'PREFERENCE'
 
 export default function Setting() {
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [activeIndex, setActiveIndex] = useState(-1)
   const [settings, setSettings] = useState<SettingMap>(new Map())
-  const [settingKey, setSettingKey] = useState('')
+  const [settingKey, setSettingKey] = useState(PREFERENCE)
   const [setting, setSetting] = useState<SettingObjectWithField[]>([])
   const [langsList, setLangsList] = useState<SettingObjectOption[]>([])
+  const langContext = useLang()
 
   useEffect(() => {
     const removeListener = window.bank.onSetting((data) => {
@@ -33,9 +36,14 @@ export default function Setting() {
     })
     const removeLangsListListener = window.bank.onLangsListChange((data) => {
       setLangsList(data)
+      setSetting(createSettings(data, langContext.langKey))
     })
     const removeLangDataListener = window.bank.onLangDataChange((data) => {
-      console.log(data)
+      const langData = JSON.parse(data.langJsonData)
+      langStorage.setLangCurrent(data.lang)
+      langContext.setLangKey(data.lang)
+      langStorage.setLangCurrentData(langData)
+      langContext.setLang(langData)
     })
     return () => {
       removeListener()
@@ -48,7 +56,7 @@ export default function Setting() {
     setActiveIndex(index)
     setSettingKey(key)
     if (key === PREFERENCE) {
-      setSetting(createSettings(langsList))
+      setSetting(createSettings(langsList, langContext.langKey))
     } else {
       setSetting(settings.get(key)?.setting || [])
     }
