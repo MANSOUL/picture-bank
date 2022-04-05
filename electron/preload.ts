@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-04-05 14:45:02
+ * @LastEditTime: 2022-04-05 15:44:23
  * @Description: file content
  */
 import { ipcRenderer, IpcRendererEvent, contextBridge, clipboard } from 'electron'
@@ -20,6 +20,7 @@ let langsList: SettingObjectOption[] = []
 let onLangsListChangeCallback: OnLangsListChangeCallback | null = null // 通知UI语言列表有变化
 let onLangDataChangeCallBack: OnLangChangeCallback | null = null // 通知UI新的语言数据
 let onShowMessageCallback: OnShowMessageCallack | null // 向UI发消息提示
+let onUploadListCallback: OnUploadListCallback | null // 获取上传的文件列表
 
 declare global {
   interface Window {
@@ -100,6 +101,15 @@ const api = {
     return () => {
       onShowMessageCallback = null
     }
+  },
+  onUploadList(callback: OnUploadListCallback) {
+    onUploadListCallback = callback
+    extensionHost.send({
+      type: 'getUploadList'
+    })
+    return () => {
+      onUploadListCallback = null
+    }
   }
 }
 
@@ -123,6 +133,9 @@ extensionHost.on('message', (data: ExtensionHostMessage) => {
   }
   if (data.type === 'tip' && onShowMessageCallback) {
     onShowMessageCallback(data.data)
+  }
+  if (data.type === 'uploadList' && onUploadListCallback) {
+    onUploadListCallback(data.data)
   }
 })
 

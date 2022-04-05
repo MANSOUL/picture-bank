@@ -21530,7 +21530,7 @@ FormData.prototype.toString = function () {
  * @Author: kuanggf
  * @Date: 2022-03-18 12:59:50
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-04-05 14:24:57
+ * @LastEditTime: 2022-04-05 15:20:19
  * @Description: file content
  */
 
@@ -21597,6 +21597,7 @@ async function uploadFile(filepath, filename, onProgress, config) {
       }
     }
   } catch(error) {
+    console.log(error);
     return {
       success: false
     }
@@ -21607,7 +21608,7 @@ async function uploadFile(filepath, filename, onProgress, config) {
  * @Author: kuanggf
  * @Date: 2022-03-18 12:15:24
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-04-05 14:31:12
+ * @LastEditTime: 2022-04-05 15:33:46
  * @Description: file content
  */
 
@@ -21663,7 +21664,11 @@ function index(bank) {
     });
   });
 
-  bank.on('init', () => {
+  bank.on('getUploadList', () => {
+    bank.emit('uploadList', memory);
+  });
+
+  bank.on('clear', () => {
     memory = [];
   });
 }

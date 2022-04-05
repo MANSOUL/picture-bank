@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-04-05 15:06:05
+ * @LastEditTime: 2022-04-05 15:40:54
  * @Description: file content
  */
 import React, { useEffect, useState } from 'react'
@@ -40,7 +40,13 @@ export default function Upload() {
         // }
       })
     })
-    return () => removeListener()
+    const removeUploadListListener = window.bank.onUploadList((data) => {
+      setUploadList(data)
+    })
+    return () => {
+      removeListener()
+      removeUploadListListener()
+    }
   }, [])
 
   const handleUpload = async (files: FileLike[]) => {

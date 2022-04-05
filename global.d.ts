@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-15 16:31:36
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-04-05 14:43:37
+ * @LastEditTime: 2022-04-05 15:38:44
  * @Description: file content
  */
 interface FileLike {
@@ -73,7 +73,17 @@ interface ExtensionHostMessageOfTip {
   data: MessageInfo
 }
 
-type ExtensionHostMessage = ExtensionHostMessageOfProgress | ExtensionHostMessageOfSetting | ExtensionHostMessageOfTip
+// 获取上传的列表
+interface ExtensionHostMessageOfUploadList {
+  type: 'uploadList'
+  data: Array<FileLikeUpload>
+}
+
+type ExtensionHostMessage =
+  | ExtensionHostMessageOfProgress
+  | ExtensionHostMessageOfSetting
+  | ExtensionHostMessageOfTip
+  | ExtensionHostMessageOfUploadList
 
 interface MessageInfo {
   visible: boolean
@@ -126,4 +136,8 @@ interface OnLangChangeCallback {
 
 interface OnShowMessageCallack {
   (data: MessageInfo): void
+}
+
+interface OnUploadListCallback {
+  (data: FileLikeUpload[]): void
 }
