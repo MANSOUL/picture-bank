@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-04-04 10:59:53
+ * @LastEditTime: 2022-04-05 14:36:24
  * @Description: file content
  */
 import { ipcRenderer, IpcRendererEvent, contextBridge, clipboard } from 'electron'
@@ -113,6 +113,9 @@ extensionHost.on('message', (data: ExtensionHostMessage) => {
     if (onSettingCallback) {
       onSettingCallback(settingMap)
     }
+  }
+  if (data.type === 'tip') {
+    window.showMessage(data.data)
   }
 })
 

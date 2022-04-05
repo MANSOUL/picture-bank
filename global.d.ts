@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-15 16:31:36
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-04-04 11:01:17
+ * @LastEditTime: 2022-04-05 14:35:56
  * @Description: file content
  */
 interface FileLike {
@@ -57,6 +57,7 @@ interface SettingExtensionHostMessageData {
   setting: SettingObjectWithField[]
 }
 
+// 设置通信
 interface ExtensionHostMessageOfSetting {
   type: 'setting'
   data: SettingExtensionHostMessageData
@@ -66,7 +67,13 @@ interface ProgressEventListener {
   (data: Array<FileLikeUpload>): void
 }
 
-type ExtensionHostMessage = ExtensionHostMessageOfProgress | ExtensionHostMessageOfSetting
+// 消息提示通信
+interface ExtensionHostMessageOfTip {
+  type: 'tip'
+  data: MessageInfo
+}
+
+type ExtensionHostMessage = ExtensionHostMessageOfProgress | ExtensionHostMessageOfSetting | ExtensionHostMessageOfTip
 
 interface MessageInfo {
   visible: boolean
