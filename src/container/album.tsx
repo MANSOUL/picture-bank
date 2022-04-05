@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 17:52:28
+ * @LastEditTime: 2022-04-05 14:56:52
  * @Description: file content
  */
 import { useLiveQuery } from 'dexie-react-hooks'
@@ -12,14 +12,20 @@ import PictureItem from '../components/pictureItem'
 import { db } from '../db'
 
 export default function Album() {
-  const pictures = useLiveQuery(() => db.pictures.toArray())
+  const pictures = useLiveQuery(() =>
+    db.pictures
+      .where({
+        uploaded: 1
+      })
+      .toArray()
+  )
 
   return (
     <div className="p-6 px-3 w-full h-full overflow-scroll">
       <div className="flex flex-wrap">
         {pictures && pictures.length
           ? pictures.map((item) => (
-              <div className="mx-3 mb-6">
+              <div key={item.id} className="mx-3 mb-6">
                 <PictureItem key={item.id} data={item} />
               </div>
             ))

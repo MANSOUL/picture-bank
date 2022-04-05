@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-24 19:08:28
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 13:58:35
+ * @LastEditTime: 2022-04-05 14:55:22
  * @Description: file content
  */
 import Dexie, { Table } from 'dexie'
@@ -22,7 +22,7 @@ export interface Picture {
   removeSourceName: string // 存储了远程图片的远程源描述
 }
 
-const VERSION_ONE = 1
+const VERSION_ONE = 2
 
 export class MySubClassedDexie extends Dexie {
   pictures!: Table<Picture>
@@ -30,7 +30,7 @@ export class MySubClassedDexie extends Dexie {
   constructor() {
     super('myDatabase')
     this.version(VERSION_ONE).stores({
-      pictures: '++id, &localAbsolutePath, remotePath, fileName'
+      pictures: '++id, &localAbsolutePath, remotePath, fileName, uploaded, createdTime'
     })
   }
 }
