@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 15:24:45
+ * @LastEditTime: 2022-04-05 15:06:05
  * @Description: file content
  */
 import React, { useEffect, useState } from 'react'
@@ -20,20 +20,24 @@ export default function Upload() {
     const removeListener = window.bank.onProgress((e) => {
       setUploadList(e)
       e.forEach((file) => {
-        if (!file.done) return
-        db.pictures
-          .where({
-            localAbsolutePath: file.path
-          })
-          .modify({
+        if (file.done) {
+          db.pictures.add({
+            localAbsolutePath: file.path,
             remotePath: file.link,
+            fileName: file.name,
             size: file.total,
             width: file.w,
             height: file.h,
             uploading: 0,
             uploaded: 1,
-            createdTime: Date.now()
+            createdTime: Date.now(),
+            remoteSource: 'qiniu',
+            removeSourceName: '七牛云'
           })
+        }
+        // else if (file.fail) {
+
+        // }
       })
     })
     return () => removeListener()
@@ -43,7 +47,8 @@ export default function Upload() {
     const selects = files.map((item) => {
       return db.pictures
         .where({
-          localAbsolutePath: item.path
+          localAbsolutePath: item.path,
+          uploaded: 1
         })
         .first()
     })
@@ -53,7 +58,7 @@ export default function Upload() {
       const waitToUploadFiles = files.filter((file) => {
         if (exists.some((item) => item.status === 'fulfilled' && item.value?.localAbsolutePath === file.path)) {
           window.showMessage({
-            message: `${file.name}已上传或正在上传中`,
+            message: `${file.name}已上传`,
             visible: true
           })
           return false
@@ -61,23 +66,6 @@ export default function Upload() {
         return true
       })
       console.log('等待上传的文件:', waitToUploadFiles)
-      await Promise.all(
-        waitToUploadFiles.map((file) => {
-          return db.pictures.add({
-            localAbsolutePath: file.path,
-            remotePath: '',
-            fileName: file.name,
-            size: 0,
-            width: 0,
-            height: 0,
-            uploading: 1,
-            uploaded: 0,
-            createdTime: Date.now(),
-            remoteSource: 'qiniu',
-            removeSourceName: '七牛云'
-          })
-        })
-      )
       window.bank.upload(waitToUploadFiles)
     } catch (error) {
       console.log(error)
