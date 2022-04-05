@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-15 12:18:55
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-04-05 14:15:50
+ * @LastEditTime: 2022-04-05 14:19:56
  * @Description: file content
  */
 const EventEmitter = require('events')
@@ -16,6 +16,13 @@ const myEmitter = new MyEmitter()
 myEmitter.on('progress', (data) => {
   process.send({
     type: 'progress',
+    data
+  })
+})
+
+myEmitter.on('tip', (data) =>  {
+  process.send({
+    type: 'tip',
     data
   })
 })
