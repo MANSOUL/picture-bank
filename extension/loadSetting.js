@@ -1,3 +1,10 @@
+/*
+ * @Author: kuanggf
+ * @Date: 2022-04-04 10:40:36
+ * @LastEditors: kuanggf
+ * @LastEditTime: 2022-04-05 14:15:24
+ * @Description: file content
+ */
 const fs = require('fs')
 
 const settingPath = './extension/setting.json'
@@ -54,7 +61,20 @@ function readSetting(extension) {
   applySettingToFile(extension, package.setting, package.displayName)
 }
 
+function addGetSettingToEmitter(emitter) {
+  emitter.getSetting = (extension) => {
+    const settingData = readSettingFromFile()
+    const extensionSetting = settingData[extension].setting
+    const settingMap = {}
+    extensionSetting.forEach(item => {
+      settingMap[item.key] = item.value || ''
+    })
+    return settingMap
+  }
+}
+
 module.exports = {
   readSetting,
-  mergeValueToSetting
+  mergeValueToSetting,
+  addGetSettingToEmitter
 }

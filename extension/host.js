@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-15 12:18:55
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-15 16:37:42
+ * @LastEditTime: 2022-04-05 14:15:50
  * @Description: file content
  */
 const EventEmitter = require('events')
@@ -31,4 +31,5 @@ process.on('message', (data) => {
 })
 
 loadExtension('qiniu', myEmitter)
-loadSetting.readSetting('qiniu')
+loadSetting.readSetting('qiniu', myEmitter)
+loadSetting.addGetSettingToEmitter(myEmitter)
