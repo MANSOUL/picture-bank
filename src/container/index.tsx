@@ -2,10 +2,10 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-04-04 18:41:43
+ * @LastEditTime: 2022-04-05 14:46:58
  * @Description: file content
  */
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import LibarayIcon from '../components/libarayIcon'
 import MenuItem from '../components/menuItem'
@@ -33,6 +33,15 @@ export default function Layout() {
       setLangKey
     }
   }, [lang, langKey])
+
+  useEffect(() => {
+    const removeShowMessageListener = window.bank.onShowMessage((data) => {
+      window.showMessage(data)
+    })
+    return () => {
+      removeShowMessageListener()
+    }
+  }, [])
 
   const handleChangePage = (_page: string) => {
     setPage(_page)

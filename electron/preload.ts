@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2022-03-12 18:28:32
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-04-05 14:36:24
+ * @LastEditTime: 2022-04-05 14:45:02
  * @Description: file content
  */
 import { ipcRenderer, IpcRendererEvent, contextBridge, clipboard } from 'electron'
@@ -19,6 +19,7 @@ let onSettingCallback: OnSettingCallback | null = null // 通知UI设置项有�
 let langsList: SettingObjectOption[] = []
 let onLangsListChangeCallback: OnLangsListChangeCallback | null = null // 通知UI语言列表有变化
 let onLangDataChangeCallBack: OnLangChangeCallback | null = null // 通知UI新的语言数据
+let onShowMessageCallback: OnShowMessageCallack | null // 向UI发消息提示
 
 declare global {
   interface Window {
@@ -93,6 +94,12 @@ const api = {
     langHost.send({
       type: 'langListChange'
     })
+  },
+  onShowMessage(callback: OnShowMessageCallack) {
+    onShowMessageCallback = callback
+    return () => {
+      onShowMessageCallback = null
+    }
   }
 }
 
@@ -114,8 +121,8 @@ extensionHost.on('message', (data: ExtensionHostMessage) => {
       onSettingCallback(settingMap)
     }
   }
-  if (data.type === 'tip') {
-    window.showMessage(data.data)
+  if (data.type === 'tip' && onShowMessageCallback) {
+    onShowMessageCallback(data.data)
   }
 })
 

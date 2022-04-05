@@ -51,24 +51,6 @@ var require$$0__default$6 = /*#__PURE__*/_interopDefaultLegacy(require$$0$7);
 var require$$1__default$2 = /*#__PURE__*/_interopDefaultLegacy(require$$1$2);
 var require$$1__default$4 = /*#__PURE__*/_interopDefaultLegacy(require$$1$4);
 
-/*
- * @Author: kuanggf
- * @Date: 2022-03-18 12:18:21
- * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-18 16:04:43
- * @Description: file content
- */
-var config = {
-  qiniu: {
-    accessKey: 'jve3cpgfeF1Dxb4HMxERUyCkRebW_IO2H5jHpMV5',
-    secretKey: 'AsPj69IgSfNGzh7_gEk2Qosld-Tf6RrjGDwwDwt_',
-    origin: 'r8x85dkt8.hn-bkt.clouddn.com',
-    bucket: 'picturebank',
-    protocol: 'http',
-    uploadURL: 'http://up-z2.qiniup.com/'
-  }
-};
-
 function getDefaultExportFromCjs (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
 }
@@ -21548,7 +21530,7 @@ FormData.prototype.toString = function () {
  * @Author: kuanggf
  * @Date: 2022-03-18 12:59:50
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-18 18:31:21
+ * @LastEditTime: 2022-04-05 14:24:57
  * @Description: file content
  */
 
@@ -21566,9 +21548,9 @@ const hmacSha1 = (str, secretKey) => {
   return hmac.digest('base64')
 };
 
-const createUploadToken = (filename) => {
+const createUploadToken = (filename, config) => {
     // 构造上传策略：
-    const scope = `${config.qiniu.bucket}:${filename}`;
+    const scope = `${config.bucket}:${filename}`;
     const deadline = Math.floor(Date.now() / 1000) + 3600;
     const returnBody = `{"name": $(fname), "key": $(key),"size": $(fsize),"w": $(imageInfo.width),"h": $(imageInfo.height),"hash": $(etag)}`;
     // 将上传策略序列化成为JSON：
@@ -21580,27 +21562,27 @@ const createUploadToken = (filename) => {
     // 对 JSON 编码的上传策略进行URL 安全的 Base64 编码，得到待签名字符串：
     const encodedPutPolicy = urlsafeBase64Encode(putPolicy);
     // 使用访问密钥（AK/SK）对上一步生成的待签名字符串计算HMAC-SHA1签名：
-    const sign = hmacSha1(encodedPutPolicy, config.qiniu.secretKey);
+    const sign = hmacSha1(encodedPutPolicy, config.secretKey);
     // 签名进行URL安全的Base64编码：
     const encodedSign = base64ToUrlSafe(sign);
 
-    const uploadToken = config.qiniu.accessKey + ':' + encodedSign + ':' + encodedPutPolicy;
+    const uploadToken = config.accessKey + ':' + encodedSign + ':' + encodedPutPolicy;
     return uploadToken
 };
 
-async function uploadFile(filepath, filename, onProgress) {
+async function uploadFile(filepath, filename, onProgress, config) {
   const date = new Date();
   filename = `${date.getFullYear()}_${date.getMonth()}_${date.getDate()}/${filename}`;
 
   const fd = new form_data();
   fd.append('key', filename);
-  fd.append('token', createUploadToken(filename));
+  fd.append('token', createUploadToken(filename, config));
   fd.append('file', require$$2__default["default"].createReadStream(filepath));
 
   const headers = fd.getHeaders();
 
   try {
-    const data = await got$1.post(config.qiniu.uploadURL, {
+    const data = await got$1.post(config.uploadURL, {
       body: fd,
       headers
     })
@@ -21611,7 +21593,7 @@ async function uploadFile(filepath, filename, onProgress) {
       success: true,
       data: {
         ...data,
-        link: `${config.qiniu.protocol}://${config.qiniu.origin}/${data.key}`
+        link: `${config.protocol || 'http'}://${config.origin}/${data.key}`
       }
     }
   } catch(error) {
@@ -21625,7 +21607,7 @@ async function uploadFile(filepath, filename, onProgress) {
  * @Author: kuanggf
  * @Date: 2022-03-18 12:15:24
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-18 18:58:22
+ * @LastEditTime: 2022-04-05 14:31:12
  * @Description: file content
  */
 
@@ -21633,7 +21615,18 @@ let memory = [];
 
 function index(bank) {
   bank.on('upload', (files) => {
-    console.log('receive:', files);
+    const config = bank.getSetting('qiniu');
+    const requiredSetting = ['bucket', 'secretKey', 'accessKey', 'uploadURL', 'origin'];
+    for (let i = 0; i < requiredSetting.length; i++) {
+      if (!config[requiredSetting[i]]) {
+        bank.emit('tip', {
+          visible: true,
+          type: 'error',
+          message: `缺少必要参数${requiredSetting[i]}`
+        });
+        return
+      }
+    }
     files.forEach(file => {
       const fileUpload = { 
         ...file,
@@ -21652,7 +21645,7 @@ function index(bank) {
           fileUpload.loaded = fileUpload.total *  0.999;
         }
         bank.emit('progress', memory);
-      }).then(data => {
+      }, config).then(data => {
         if (data.success)  {
           fileUpload.loaded = fileUpload.total;
           fileUpload.percent = 1;
