@@ -2,12 +2,12 @@
  * @Author: kuanggf
  * @Date: 2022-03-14 12:02:44
  * @LastEditors: kuanggf
- * @LastEditTime: 2022-03-25 11:44:58
+ * @LastEditTime: 2022-04-05 15:50:06
  * @Description: file content
  */
 import React from 'react'
 import FileIcon from './fileIcon'
-import CloseIcon from './closeIcon'
+// import CloseIcon from './closeIcon'
 import { getExtension } from '../utils'
 
 interface UploadItemProps {
@@ -47,9 +47,7 @@ export default function UploadItem({ data }: UploadItemProps) {
           />
         </div>
       </div>
-      <div className="shrink-0">
-        <CloseIcon />
-      </div>
+      <div className="shrink-0">{/* <CloseIcon /> */}</div>
     </div>
   )
 }
