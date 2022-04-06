@@ -36,7 +36,8 @@ export default function Upload() {
           })
         }
         // else if (file.fail) {
-
+        //   const newList = uploadList.filter((item) => item.path !== file.path)
+        //   setUploadList(newList)
         // }
       })
     })
@@ -65,6 +66,13 @@ export default function Upload() {
         if (exists.some((item) => item.status === 'fulfilled' && item.value?.localAbsolutePath === file.path)) {
           window.showMessage({
             message: `${file.name}已上传`,
+            visible: true
+          })
+          return false
+        }
+        if (uploadList.some((item) => item.path === file.path && !item.fail)) {
+          window.showMessage({
+            message: `${file.name}正在上传中`,
             visible: true
           })
           return false

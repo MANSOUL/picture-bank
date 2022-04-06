@@ -28,6 +28,10 @@ export default function UploadItem({ data }: UploadItemProps) {
 
   const progress = data.loaded / data.total
   const progressText = `${(progress * 100).toFixed(1)}%`
+  const titleClassName = `text-sm ${data.fail ? 'text-rose-500' : 'text-black/70'} cursor-pointer`
+  let titleDesc = ''
+  if (data.done) titleDesc = '点击复制'
+  if (data.fail) titleDesc = '上传失败'
   return (
     <div className="flex items-center p-3 rounded hover:shadow-xl hover:shadow-indigo-500/20">
       <div className="shrink-0 w-8 h-10">
@@ -35,7 +39,7 @@ export default function UploadItem({ data }: UploadItemProps) {
       </div>
       <div className="grow mx-4">
         <div className="flex justify-between">
-          <button onClick={handleCopyLink} className="text-sm text-black/70 cursor-pointer" title="click to copy link">
+          <button onClick={handleCopyLink} className={titleClassName} title={titleDesc}>
             {data.name}
           </button>
           <span className="text-sm text-slate-400">{progressText}</span>
