@@ -11,6 +11,7 @@ import FileChoice from '../components/fileChoice'
 import UploadItem from '../components/uploadItem'
 import { useLang } from '../context/lang'
 import { db } from '../db'
+import { isSupportedImageFormat } from '../utils'
 
 export default function Upload() {
   const [uploadList, setUploadList] = useState<FileLikeUpload[]>([])
@@ -50,7 +51,17 @@ export default function Upload() {
     }
   }, [])
 
-  const handleUpload = async (files: FileLike[]) => {
+  const handleUpload = async (_files: FileLike[]) => {
+    const files = _files.filter((item) => {
+      const supported = isSupportedImageFormat(item.name)
+      if (!supported) {
+        window.showMessage({
+          message: `不支持非图片文件：${item.name}`,
+          visible: true
+        })
+      }
+      return supported
+    })
     const selects = files.map((item) => {
       return db.pictures
         .where({

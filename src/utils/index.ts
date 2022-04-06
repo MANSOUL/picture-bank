@@ -36,6 +36,11 @@ export function formatTime(timestamp = Date.now()) {
   return `${date.getFullYear()}.${fixedZero(date.getMonth() + 1)}.${fixedZero(date.getDay())}`
 }
 
+export function isSupportedImageFormat(name: string) {
+  const regExp = /\.(apng|avif|gif|jpg|jpeg|jpe|jif|jfif|png|svg|webp)$/i
+  return regExp.test(name)
+}
+
 export default function none() {
   console.log('none')
 }
