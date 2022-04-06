@@ -30,7 +30,7 @@ export default function UploadItem({ data }: UploadItemProps) {
   const progressText = `${(progress * 100).toFixed(1)}%`
   const titleClassName = `text-sm ${data.fail ? 'text-rose-500' : 'text-black/70'} cursor-pointer`
   let titleDesc = ''
-  if (data.done) titleDesc = '点击复制'
+  if (data.done) titleDesc = '点击复制图片链接'
   if (data.fail) titleDesc = '上传失败'
   return (
     <div className="flex items-center p-3 rounded hover:shadow-xl hover:shadow-indigo-500/20">
