@@ -90,6 +90,7 @@ export default function Upload() {
         }
         return true
       })
+      if (waitToUploadFiles.length === 0) return
       console.log('等待上传的文件:', waitToUploadFiles)
       window.bank.upload(waitToUploadFiles)
     } catch (error) {
