@@ -6,6 +6,7 @@
  * @Description: file content
  */
 import React from 'react'
+import { useLang } from '../context/lang'
 import { Picture } from '../db'
 import { formatTime } from '../utils'
 
@@ -14,11 +15,13 @@ interface PictureItemProps {
 }
 
 export default function PictureItem({ data }: PictureItemProps) {
+  const langContext = useLang()
+
   const handleCopyLink = () => {
     window.bank.writeTextToClipboard(data.remotePath)
     window.showMessage({
       type: 'success',
-      message: '图片链接已复制',
+      message: langContext.lang.DESC_IMAGE_LINK_COPIED,
       visible: true
     })
   }
@@ -34,7 +37,7 @@ export default function PictureItem({ data }: PictureItemProps) {
       >
         <button
           onClick={handleCopyLink}
-          title="click to copy link"
+          title={langContext.lang.DESC_CLICK_COPY_IMAGE_LINK}
           className="text-white text-left text-sm font-medium truncate cursor-pointer"
         >
           {data.fileName}

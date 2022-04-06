@@ -9,5 +9,8 @@
   "BUTTON_BROWSER_FILES": "Browser Files",
   "BUTTON_APPLY": "Apply",
   "TITLE_UPLOADED_FILES": "Uploaded Files",
-  "DESC_EMPTY": "Empty"
+  "DESC_EMPTY": "Empty",
+  "DESC_CLICK_COPY_IMAGE_LINK": "Click to copy image link",
+  "DESC_UPLOAD_FAIL": "upload fail",
+  "DESC_IMAGE_LINK_COPIED": "image link copied"
 }

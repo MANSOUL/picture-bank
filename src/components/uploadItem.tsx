@@ -9,18 +9,21 @@ import React from 'react'
 import FileIcon from './fileIcon'
 // import CloseIcon from './closeIcon'
 import { getExtension } from '../utils'
+import { useLang } from '../context/lang'
 
 interface UploadItemProps {
   data: FileLikeUpload
 }
 
 export default function UploadItem({ data }: UploadItemProps) {
+  const langContext = useLang()
+
   const handleCopyLink = () => {
     if (data.done && !data.fail) {
       window.bank.writeTextToClipboard(data.link)
       window.showMessage({
         type: 'success',
-        message: '图片链接已复制',
+        message: langContext.lang.DESC_IMAGE_LINK_COPIED,
         visible: true
       })
     }
@@ -30,8 +33,8 @@ export default function UploadItem({ data }: UploadItemProps) {
   const progressText = `${(progress * 100).toFixed(1)}%`
   const titleClassName = `text-sm ${data.fail ? 'text-rose-500' : 'text-black/70'} cursor-pointer`
   let titleDesc = ''
-  if (data.done) titleDesc = '点击复制图片链接'
-  if (data.fail) titleDesc = '上传失败'
+  if (data.done) titleDesc = langContext.lang.DESC_CLICK_COPY_IMAGE_LINK
+  if (data.fail) titleDesc = langContext.lang.DESC_UPLOAD_FAIL
   return (
     <div className="flex items-center p-3 rounded hover:shadow-xl hover:shadow-indigo-500/20">
       <div className="shrink-0 w-8 h-10">
